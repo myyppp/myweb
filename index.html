@@ -1,1 +1,347 @@
-hello world!
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乘法求和计算器</title>
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="description" content="一个简单的乘法求和计算器PWA应用">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 25px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .input-group label {
+            min-width: 100px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        input[type="number"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .calculate-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .calculate-btn:hover {
+            background-color: #0069d9;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .results h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .input-group label {
+                min-width: auto;
+                margin-bottom: 5px;
+            }
+
+            input[type="number"] {
+                width: 100%;
+            }
+
+            button {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>乘法求和计算器</h1>
+            <p class="subtitle">输入多组数字，计算每组乘积并求和</p>
+        </header>
+
+        <main>
+            <div class="input-section" id="inputSection">
+                <!-- 输入组将由JavaScript动态生成 -->
+            </div>
+
+            <div class="buttons">
+                <button class="add-btn" id="addGroup">添加一组数字</button>
+                <button class="calculate-btn" id="calculate">计算乘积和</button>
+                <button class="reset-btn" id="reset">重置</button>
+            </div>
+
+            <div class="results" id="results">
+                <h2>计算结果</h2>
+                <div id="resultItems"></div>
+                <div class="total" id="totalResult"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>PWA计算器应用 - 完全基于前端技术</p>
+        </footer>
+    </div>
+
+    <script>
+        // PWA Service Worker 注册
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // 应用逻辑
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputSection = document.getElementById('inputSection');
+            const addGroupBtn = document.getElementById('addGroup');
+            const calculateBtn = document.getElementById('calculate');
+            const resetBtn = document.getElementById('reset');
+            const resultsDiv = document.getElementById('results');
+            const resultItemsDiv = document.getElementById('resultItems');
+            const totalResultDiv = document.getElementById('totalResult');
+
+            let groupCount = 0;
+
+            // 添加一组输入框
+            function addInputGroup() {
+                groupCount++;
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'input-group';
+                groupDiv.innerHTML = `
+                    <label>第 ${groupCount} 组:</label>
+                    <input type="number" placeholder="输入第一个数字" class="num1" step="any">
+                    <span>×</span>
+                    <input type="number" placeholder="输入第二个数字" class="num2" step="any">
+                `;
+                inputSection.appendChild(groupDiv);
+            }
+
+            // 初始添加一组
+            addInputGroup();
+
+            // 添加一组按钮事件
+            addGroupBtn.addEventListener('click', addInputGroup);
+
+            // 计算按钮事件
+            calculateBtn.addEventListener('click', function () {
+                const groups = document.querySelectorAll('.input-group');
+                let totalSum = 0;
+                let resultHTML = '';
+
+                // 检查是否有空输入
+                let hasEmptyInput = false;
+
+                groups.forEach((group, index) => {
+                    const num1 = group.querySelector('.num1').value;
+                    const num2 = group.querySelector('.num2').value;
+
+                    if (num1 === '' || num2 === '') {
+                        hasEmptyInput = true;
+                        return;
+                    }
+
+                    const product = parseFloat(num1) * parseFloat(num2);
+                    totalSum += product;
+
+                    resultHTML += `
+                        <div class="result-item">
+                            <span>第 ${index + 1} 组: ${num1} × ${num2}</span>
+                            <span>= ${product}</span>
+                        </div>
+                    `;
+                });
+
+                if (hasEmptyInput) {
+                    alert('请填写所有数字！');
+                    return;
+                }
+
+                resultItemsDiv.innerHTML = resultHTML;
+                totalResultDiv.textContent = `总和: ${totalSum}`;
+                resultsDiv.style.display = 'block';
+
+                // 滚动到结果区域
+                resultsDiv.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // 重置按钮事件
+            resetBtn.addEventListener('click', function () {
+                inputSection.innerHTML = '';
+                groupCount = 0;
+                addInputGroup();
+                resultsDiv.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>
