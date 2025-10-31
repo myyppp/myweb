@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>乘法求和计算器</title>
+    <title>铁水外排成分预算</title>
     <meta name="theme-color" content="#4a90e2">
-    <meta name="description" content="一个简单的乘法求和计算器PWA应用">
+    <meta name="description" content="铁水外排成分预算">
     <link rel="manifest" href="manifest.json">
     <style>
         * {
@@ -52,46 +52,16 @@
             font-size: 1.1rem;
         }
 
-        .input-section {
-            margin-bottom: 30px;
-        }
+        .input-section { margin-bottom: 20px; }
 
-        .input-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            align-items: center;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
+        table { width: 100%; border-collapse: collapse; border-spacing: 0; }
+        thead th { background: #eef3ff; color: #2c3e50; font-weight: 700; }
+        th, td { border: 1px solid #e1e5e9; padding: 10px; text-align: center; }
+        tbody tr:hover { background: #f8fbff; }
 
-        .input-group:hover {
-            background-color: #e9ecef;
-            transform: translateY(-2px);
-        }
-
-        .input-group label {
-            min-width: 100px;
-            font-weight: 600;
-            color: #495057;
-        }
-
-        input[type="number"] {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        input[type="number"]:focus {
-            border-color: #4a90e2;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-        }
+        .cell-input { width: 100%; padding: 10px 12px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; }
+        .cell-input:focus { border-color: #4a90e2; outline: none; box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2); }
+        .cell-suffix { margin-left: 6px; color: #6c757d; }
 
         .buttons {
             display: flex;
@@ -142,13 +112,7 @@
             transform: translateY(-2px);
         }
 
-        .results {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            display: none;
-        }
+        .results { margin-top: 20px; padding: 20px; background-color: #f8f9fa; border-radius: 10px; }
 
         .results h2 {
             color: #2c3e50;
@@ -156,12 +120,7 @@
             font-size: 1.5rem;
         }
 
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e1e5e9;
-        }
+        .result-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e1e5e9; }
 
         .result-item:last-child {
             border-bottom: none;
@@ -176,11 +135,14 @@
             border-top: 2px solid #dee2e6;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            color: #6c757d;
-        }
+        .empty-state { text-align: center; padding: 30px; color: #6c757d; }
+
+        .history { margin-top: 25px; }
+        .history h3 { margin-bottom: 10px; color: #2c3e50; }
+        .history-list { list-style: none; }
+        .history-item { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px; background: #fff; }
+        .history-actions { display: flex; gap: 8px; }
+        .small-btn { padding: 8px 12px; font-size: 14px; min-width: auto; }
 
         footer {
             margin-top: 40px;
@@ -218,30 +180,56 @@
 <body>
     <div class="container">
         <header>
-            <h1>乘法求和计算器</h1>
-            <p class="subtitle">输入多组数字，计算每组乘积并求和</p>
+            <h1>铁水外排成分预算</h1>
+            <p class="subtitle">按行输入铁水重量与单元素含量(%)，自动计算乘积、总量与占比</p>
         </header>
 
         <main>
-            <div class="input-section" id="inputSection">
-                <!-- 输入组将由JavaScript动态生成 -->
+            <div class="input-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">序号</th>
+                            <th>铁水重量</th>
+                            <th>单元素含量(%)</th>
+                            <th>乘积(重量×含量%)</th>
+                            <th style="width: 90px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rows"></tbody>
+                    <tfoot>
+                        <tr>
+                            <th>总计</th>
+                            <th id="totalWeight">0</th>
+                            <th>-</th>
+                            <th id="totalElement">0</th>
+                            <th>-</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="buttons">
+                    <button class="add-btn" id="addRowBtn">添加一行</button>
+                    <button class="calculate-btn" id="saveHistoryBtn">保存本次计算</button>
+                    <button class="reset-btn" id="clearInputsBtn">清空输入</button>
+                    <button class="reset-btn" id="clearHistoryBtn" style="background-color:#6c757d;">清空缓存</button>
+                </div>
             </div>
 
-            <div class="buttons">
-                <button class="add-btn" id="addGroup">添加一组数字</button>
-                <button class="calculate-btn" id="calculate">计算乘积和</button>
-                <button class="reset-btn" id="reset">重置</button>
+            <div class="results" id="summary">
+                <h2>汇总</h2>
+                <div class="result-item"><span>总重量</span><span id="sumWeight">0</span></div>
+                <div class="result-item"><span>单元素总量</span><span id="sumElement">0</span></div>
+                <div class="result-item total"><span>单元素占比</span><span id="sumPercent">0%</span></div>
             </div>
 
-            <div class="results" id="results">
-                <h2>计算结果</h2>
-                <div id="resultItems"></div>
-                <div class="total" id="totalResult"></div>
-            </div>
+            <section class="history" id="history">
+                <h3>历史记录</h3>
+                <ul class="history-list" id="historyList"></ul>
+            </section>
         </main>
 
         <footer>
-            <p>PWA计算器应用 - 完全基于前端技术</p>
+            <p>铁水外排成分预算</p>
         </footer>
     </div>
 
@@ -261,85 +249,232 @@
 
         // 应用逻辑
         document.addEventListener('DOMContentLoaded', function () {
-            const inputSection = document.getElementById('inputSection');
-            const addGroupBtn = document.getElementById('addGroup');
-            const calculateBtn = document.getElementById('calculate');
-            const resetBtn = document.getElementById('reset');
-            const resultsDiv = document.getElementById('results');
-            const resultItemsDiv = document.getElementById('resultItems');
-            const totalResultDiv = document.getElementById('totalResult');
+            const rowsTbody = document.getElementById('rows');
+            const addRowBtn = document.getElementById('addRowBtn');
+            const clearInputsBtn = document.getElementById('clearInputsBtn');
+            const saveHistoryBtn = document.getElementById('saveHistoryBtn');
+            const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 
-            let groupCount = 0;
+            const totalWeightCell = document.getElementById('totalWeight');
+            const totalElementCell = document.getElementById('totalElement');
 
-            // 添加一组输入框
-            function addInputGroup() {
-                groupCount++;
-                const groupDiv = document.createElement('div');
-                groupDiv.className = 'input-group';
-                groupDiv.innerHTML = `
-                    <label>第 ${groupCount} 组:</label>
-                    <input type="number" placeholder="输入第一个数字" class="num1" step="any">
-                    <span>×</span>
-                    <input type="number" placeholder="输入第二个数字" class="num2" step="any">
-                `;
-                inputSection.appendChild(groupDiv);
+            const sumWeight = document.getElementById('sumWeight');
+            const sumElement = document.getElementById('sumElement');
+            const sumPercent = document.getElementById('sumPercent');
+
+            const historyList = document.getElementById('historyList');
+
+            function formatNumber(num, digits = 4) {
+                if (!isFinite(num)) return '0';
+                return Number(num).toFixed(digits).replace(/\.0+$/, function (m) { return m.replace(/0+$/, ''); });
             }
 
-            // 初始添加一组
-            addInputGroup();
+            function calcProduct(weight, percent) {
+                const w = parseFloat(weight);
+                const p = parseFloat(percent);
+                if (isNaN(w) || isNaN(p)) return 0;
+                return w * (p / 100);
+            }
 
-            // 添加一组按钮事件
-            addGroupBtn.addEventListener('click', addInputGroup);
-
-            // 计算按钮事件
-            calculateBtn.addEventListener('click', function () {
-                const groups = document.querySelectorAll('.input-group');
-                let totalSum = 0;
-                let resultHTML = '';
-
-                // 检查是否有空输入
-                let hasEmptyInput = false;
-
-                groups.forEach((group, index) => {
-                    const num1 = group.querySelector('.num1').value;
-                    const num2 = group.querySelector('.num2').value;
-
-                    if (num1 === '' || num2 === '') {
-                        hasEmptyInput = true;
-                        return;
-                    }
-
-                    const product = parseFloat(num1) * parseFloat(num2);
-                    totalSum += product;
-
-                    resultHTML += `
-                        <div class="result-item">
-                            <span>第 ${index + 1} 组: ${num1} × ${num2}</span>
-                            <span>= ${product}</span>
+            function renderRow(index, weight = '', percent = '') {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="idx">${index + 1}</td>
+                    <td>
+                        <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
+                            <input type="number" class="cell-input weight" placeholder="重量" step="any" value="${weight}">
                         </div>
-                    `;
-                });
+                    </td>
+                    <td>
+                        <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
+                            <input type="number" class="cell-input percent" placeholder="含量%" step="any" value="${percent}"><span class="cell-suffix">%</span>
+                        </div>
+                    </td>
+                    <td class="product">0</td>
+                    <td>
+                        <button class="small-btn reset-btn remove-row">删除</button>
+                    </td>
+                `;
 
-                if (hasEmptyInput) {
-                    alert('请填写所有数字！');
-                    return;
+                // 事件
+                const weightInput = tr.querySelector('.weight');
+                const percentInput = tr.querySelector('.percent');
+                const productCell = tr.querySelector('.product');
+                const removeBtn = tr.querySelector('.remove-row');
+
+                function update() {
+                    const product = calcProduct(weightInput.value, percentInput.value);
+                    productCell.textContent = formatNumber(product, 4);
+                    recalcTotals();
                 }
 
-                resultItemsDiv.innerHTML = resultHTML;
-                totalResultDiv.textContent = `总和: ${totalSum}`;
-                resultsDiv.style.display = 'block';
+                weightInput.addEventListener('input', update);
+                percentInput.addEventListener('input', update);
+                removeBtn.addEventListener('click', function () {
+                    tr.remove();
+                    refreshIndices();
+                    recalcTotals();
+                });
 
-                // 滚动到结果区域
-                resultsDiv.scrollIntoView({ behavior: 'smooth' });
+                rowsTbody.appendChild(tr);
+                // 初次计算
+                update();
+            }
+
+            function refreshIndices() {
+                Array.from(rowsTbody.querySelectorAll('tr .idx')).forEach((td, i) => td.textContent = i + 1);
+            }
+
+            function recalcTotals() {
+                let totalW = 0;
+                let totalE = 0;
+                rowsTbody.querySelectorAll('tr').forEach(tr => {
+                    const w = parseFloat(tr.querySelector('.weight').value || '0');
+                    const p = parseFloat(tr.querySelector('.percent').value || '0');
+                    const prod = calcProduct(w, p);
+                    if (!isNaN(w)) totalW += w;
+                    if (!isNaN(prod)) totalE += prod;
+                });
+                totalWeightCell.textContent = formatNumber(totalW, 0);
+                totalElementCell.textContent = formatNumber(totalE, 4);
+                sumWeight.textContent = formatNumber(totalW, 0);
+                sumElement.textContent = formatNumber(totalE, 4);
+                const percent = totalW > 0 ? (totalE / totalW) * 100 : 0;
+                sumPercent.textContent = `${formatNumber(percent, 4)}%`;
+            }
+
+            function addRow(weight = '', percent = '') { renderRow(rowsTbody.children.length, weight, percent); }
+
+            function clearInputs() {
+                rowsTbody.innerHTML = '';
+                for (let i = 0; i < 3; i++) addRow();
+                recalcTotals();
+            }
+
+            // 初始化三行
+            clearInputs();
+
+            addRowBtn.addEventListener('click', () => addRow());
+            clearInputsBtn.addEventListener('click', clearInputs);
+
+            // IndexedDB 简易封装
+            const DB_NAME = 'iron-calc-db';
+            const DB_VERSION = 1;
+            const STORE = 'history';
+
+            function openDB() {
+                return new Promise((resolve, reject) => {
+                    const req = indexedDB.open(DB_NAME, DB_VERSION);
+                    req.onupgradeneeded = function (e) {
+                        const db = req.result;
+                        if (!db.objectStoreNames.contains(STORE)) {
+                            db.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
+                        }
+                    };
+                    req.onsuccess = () => resolve(req.result);
+                    req.onerror = () => reject(req.error);
+                });
+            }
+
+            async function dbAdd(record) {
+                const db = await openDB();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(STORE, 'readwrite');
+                    tx.objectStore(STORE).add(record);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => reject(tx.error);
+                });
+            }
+
+            async function dbGetAll() {
+                const db = await openDB();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(STORE, 'readonly');
+                    const req = tx.objectStore(STORE).getAll();
+                    req.onsuccess = () => resolve(req.result || []);
+                    req.onerror = () => reject(req.error);
+                });
+            }
+
+            async function dbDelete(id) {
+                const db = await openDB();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(STORE, 'readwrite');
+                    tx.objectStore(STORE).delete(id);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => reject(tx.error);
+                });
+            }
+
+            async function dbClear() {
+                const db = await openDB();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(STORE, 'readwrite');
+                    tx.objectStore(STORE).clear();
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => reject(tx.error);
+                });
+            }
+
+            function collectRows() {
+                const rows = [];
+                rowsTbody.querySelectorAll('tr').forEach(tr => {
+                    const w = parseFloat(tr.querySelector('.weight').value || '0');
+                    const p = parseFloat(tr.querySelector('.percent').value || '0');
+                    rows.push({ weight: isNaN(w) ? 0 : w, percent: isNaN(p) ? 0 : p });
+                });
+                return rows;
+            }
+
+            function loadRows(rows) {
+                rowsTbody.innerHTML = '';
+                rows.forEach(r => addRow(r.weight, r.percent));
+                if (rows.length === 0) { for (let i = 0; i < 3; i++) addRow(); }
+                recalcTotals();
+            }
+
+            async function renderHistory() {
+                const list = await dbGetAll();
+                historyList.innerHTML = '';
+                list.sort((a, b) => b.id - a.id).forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'history-item';
+                    const time = new Date(item.timestamp).toLocaleString();
+                    const percent = ((item.totalElement / item.totalWeight) * 100) || 0;
+                    li.innerHTML = `
+                        <div>
+                            <div><strong>${time}</strong></div>
+                            <div>总重: ${formatNumber(item.totalWeight, 0)}，元素量: ${formatNumber(item.totalElement, 4)}，占比: ${formatNumber(percent, 4)}%</div>
+                        </div>
+                        <div class="history-actions">
+                            <button class="small-btn calculate-btn restore">还原</button>
+                            <button class="small-btn reset-btn del">删除</button>
+                        </div>
+                    `;
+                    li.querySelector('.restore').addEventListener('click', () => loadRows(item.rows));
+                    li.querySelector('.del').addEventListener('click', async () => { await dbDelete(item.id); renderHistory(); });
+                    historyList.appendChild(li);
+                });
+            }
+
+            saveHistoryBtn.addEventListener('click', async () => {
+                const rows = collectRows();
+                let totalW = 0, totalE = 0;
+                rows.forEach(r => { totalW += r.weight; totalE += calcProduct(r.weight, r.percent); });
+                const record = { timestamp: Date.now(), rows, totalWeight: totalW, totalElement: totalE };
+                await dbAdd(record);
+                await renderHistory();
+                alert('已保存到历史');
             });
 
-            // 重置按钮事件
-            resetBtn.addEventListener('click', function () {
-                inputSection.innerHTML = '';
-                groupCount = 0;
-                addInputGroup();
-                resultsDiv.style.display = 'none';
+            clearHistoryBtn.addEventListener('click', async () => {
+                if (!confirm('确认清空所有历史记录？')) return;
+                await dbClear();
+                await renderHistory();
             });
+
+            // 首次渲染历史
+            renderHistory();
         });
     </script>
 </body>

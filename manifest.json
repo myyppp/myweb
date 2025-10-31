@@ -1,7 +1,7 @@
 {
-    "name": "乘法求和计算器",
-    "short_name": "乘积计算器",
-    "description": "一个简单的乘法求和计算器PWA应用",
+    "name": "铁水外排成分预算",
+    "short_name": "铁水外排成分预算",
+    "description": "铁水外排成分预算",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
