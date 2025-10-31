@@ -82,6 +82,11 @@ tbody tr:hover {
     font-weight: bold;
 }
 
+#sumPercent {
+    color: #dc3545;
+    font-weight: bold;
+}
+
 /* Input cells */
 .cell-input {
     width: 100%;
