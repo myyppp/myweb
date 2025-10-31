@@ -8,180 +8,13 @@
     <meta name="theme-color" content="#4a90e2">
     <meta name="description" content="铁水外排成分预算">
     <link rel="manifest" href="manifest.json">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            padding: 25px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 2.2rem;
-        }
-
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-        }
-
-        .input-section { margin-bottom: 20px; }
-
-        table { width: 100%; border-collapse: collapse; border-spacing: 0; }
-        thead th { background: #eef3ff; color: #2c3e50; font-weight: 700; }
-        th, td { border: 1px solid #e1e5e9; padding: 10px; text-align: center; }
-        tbody tr:hover { background: #f8fbff; }
-
-        .cell-input { width: 100%; padding: 10px 12px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; }
-        .cell-input:focus { border-color: #4a90e2; outline: none; box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2); }
-        .cell-suffix { margin-left: 6px; color: #6c757d; }
-
-        .buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .add-btn {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .add-btn:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-        }
-
-        .calculate-btn {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .calculate-btn:hover {
-            background-color: #0069d9;
-            transform: translateY(-2px);
-        }
-
-        .reset-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .reset-btn:hover {
-            background-color: #c82333;
-            transform: translateY(-2px);
-        }
-
-        .results { margin-top: 20px; padding: 20px; background-color: #f8f9fa; border-radius: 10px; }
-
-        .results h2 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .result-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e1e5e9; }
-
-        .result-item:last-child {
-            border-bottom: none;
-        }
-
-        .total {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #2c3e50;
-            margin-top: 10px;
-            padding-top: 15px;
-            border-top: 2px solid #dee2e6;
-        }
-
-        .empty-state { text-align: center; padding: 30px; color: #6c757d; }
-
-        .history { margin-top: 25px; }
-        .history h3 { margin-bottom: 10px; color: #2c3e50; }
-        .history-list { list-style: none; }
-        .history-item { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px; background: #fff; }
-        .history-actions { display: flex; gap: 8px; }
-        .small-btn { padding: 8px 12px; font-size: 14px; min-width: auto; }
-
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
-
-            .input-group {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .input-group label {
-                min-width: auto;
-                margin-bottom: 5px;
-            }
-
-            input[type="number"] {
-                width: 100%;
-            }
-
-            button {
-                min-width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="container">
         <header>
             <h1>铁水外排成分预算</h1>
-            <p class="subtitle">按行输入铁水重量与单元素含量(%)，自动计算乘积、总量与占比</p>
         </header>
 
         <main>
@@ -189,11 +22,11 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 70px;">序号</th>
+                            <th>序号</th>
                             <th>铁水重量</th>
-                            <th>单元素含量(%)</th>
-                            <th>乘积(重量×含量%)</th>
-                            <th style="width: 90px;">操作</th>
+                            <th>单元素含量</th>
+                            <th>乘积</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody id="rows"></tbody>
@@ -205,25 +38,27 @@
                             <th id="totalElement">0</th>
                             <th>-</th>
                         </tr>
+                        <tr>
+                            <th colspan="5" class="summary-cell">
+                                <div>铁水总重量：<span id="sumWeight" class="summary-value">0</span></div>
+                                <div>单元素总量：<span id="sumElement" class="summary-value">0</span></div>
+                                <div>单元素占比：<span id="sumPercent" class="summary-value">0%</span></div>
+                            </th>
+                        </tr>
                     </tfoot>
                 </table>
                 <div class="buttons">
                     <button class="add-btn" id="addRowBtn">添加一行</button>
                     <button class="calculate-btn" id="saveHistoryBtn">保存本次计算</button>
                     <button class="reset-btn" id="clearInputsBtn">清空输入</button>
-                    <button class="reset-btn" id="clearHistoryBtn" style="background-color:#6c757d;">清空缓存</button>
+                    <button class="reset-btn" id="clearHistoryBtn">清空缓存</button>
                 </div>
             </div>
 
-            <div class="results" id="summary">
-                <h2>汇总</h2>
-                <div class="result-item"><span>总重量</span><span id="sumWeight">0</span></div>
-                <div class="result-item"><span>单元素总量</span><span id="sumElement">0</span></div>
-                <div class="result-item total"><span>单元素占比</span><span id="sumPercent">0%</span></div>
-            </div>
-
             <section class="history" id="history">
-                <h3>历史记录</h3>
+                <div class="history-header">
+                    <h3>历史记录</h3>
+                </div>
                 <ul class="history-list" id="historyList"></ul>
             </section>
         </main>
@@ -233,250 +68,7 @@
         </footer>
     </div>
 
-    <script>
-        // PWA Service Worker 注册
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            });
-        }
-
-        // 应用逻辑
-        document.addEventListener('DOMContentLoaded', function () {
-            const rowsTbody = document.getElementById('rows');
-            const addRowBtn = document.getElementById('addRowBtn');
-            const clearInputsBtn = document.getElementById('clearInputsBtn');
-            const saveHistoryBtn = document.getElementById('saveHistoryBtn');
-            const clearHistoryBtn = document.getElementById('clearHistoryBtn');
-
-            const totalWeightCell = document.getElementById('totalWeight');
-            const totalElementCell = document.getElementById('totalElement');
-
-            const sumWeight = document.getElementById('sumWeight');
-            const sumElement = document.getElementById('sumElement');
-            const sumPercent = document.getElementById('sumPercent');
-
-            const historyList = document.getElementById('historyList');
-
-            function formatNumber(num, digits = 4) {
-                if (!isFinite(num)) return '0';
-                return Number(num).toFixed(digits).replace(/\.0+$/, function (m) { return m.replace(/0+$/, ''); });
-            }
-
-            function calcProduct(weight, percent) {
-                const w = parseFloat(weight);
-                const p = parseFloat(percent);
-                if (isNaN(w) || isNaN(p)) return 0;
-                return w * (p / 100);
-            }
-
-            function renderRow(index, weight = '', percent = '') {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="idx">${index + 1}</td>
-                    <td>
-                        <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
-                            <input type="number" class="cell-input weight" placeholder="重量" step="any" value="${weight}">
-                        </div>
-                    </td>
-                    <td>
-                        <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
-                            <input type="number" class="cell-input percent" placeholder="含量%" step="any" value="${percent}"><span class="cell-suffix">%</span>
-                        </div>
-                    </td>
-                    <td class="product">0</td>
-                    <td>
-                        <button class="small-btn reset-btn remove-row">删除</button>
-                    </td>
-                `;
-
-                // 事件
-                const weightInput = tr.querySelector('.weight');
-                const percentInput = tr.querySelector('.percent');
-                const productCell = tr.querySelector('.product');
-                const removeBtn = tr.querySelector('.remove-row');
-
-                function update() {
-                    const product = calcProduct(weightInput.value, percentInput.value);
-                    productCell.textContent = formatNumber(product, 4);
-                    recalcTotals();
-                }
-
-                weightInput.addEventListener('input', update);
-                percentInput.addEventListener('input', update);
-                removeBtn.addEventListener('click', function () {
-                    tr.remove();
-                    refreshIndices();
-                    recalcTotals();
-                });
-
-                rowsTbody.appendChild(tr);
-                // 初次计算
-                update();
-            }
-
-            function refreshIndices() {
-                Array.from(rowsTbody.querySelectorAll('tr .idx')).forEach((td, i) => td.textContent = i + 1);
-            }
-
-            function recalcTotals() {
-                let totalW = 0;
-                let totalE = 0;
-                rowsTbody.querySelectorAll('tr').forEach(tr => {
-                    const w = parseFloat(tr.querySelector('.weight').value || '0');
-                    const p = parseFloat(tr.querySelector('.percent').value || '0');
-                    const prod = calcProduct(w, p);
-                    if (!isNaN(w)) totalW += w;
-                    if (!isNaN(prod)) totalE += prod;
-                });
-                totalWeightCell.textContent = formatNumber(totalW, 0);
-                totalElementCell.textContent = formatNumber(totalE, 4);
-                sumWeight.textContent = formatNumber(totalW, 0);
-                sumElement.textContent = formatNumber(totalE, 4);
-                const percent = totalW > 0 ? (totalE / totalW) * 100 : 0;
-                sumPercent.textContent = `${formatNumber(percent, 4)}%`;
-            }
-
-            function addRow(weight = '', percent = '') { renderRow(rowsTbody.children.length, weight, percent); }
-
-            function clearInputs() {
-                rowsTbody.innerHTML = '';
-                for (let i = 0; i < 3; i++) addRow();
-                recalcTotals();
-            }
-
-            // 初始化三行
-            clearInputs();
-
-            addRowBtn.addEventListener('click', () => addRow());
-            clearInputsBtn.addEventListener('click', clearInputs);
-
-            // IndexedDB 简易封装
-            const DB_NAME = 'iron-calc-db';
-            const DB_VERSION = 1;
-            const STORE = 'history';
-
-            function openDB() {
-                return new Promise((resolve, reject) => {
-                    const req = indexedDB.open(DB_NAME, DB_VERSION);
-                    req.onupgradeneeded = function (e) {
-                        const db = req.result;
-                        if (!db.objectStoreNames.contains(STORE)) {
-                            db.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
-                        }
-                    };
-                    req.onsuccess = () => resolve(req.result);
-                    req.onerror = () => reject(req.error);
-                });
-            }
-
-            async function dbAdd(record) {
-                const db = await openDB();
-                return new Promise((resolve, reject) => {
-                    const tx = db.transaction(STORE, 'readwrite');
-                    tx.objectStore(STORE).add(record);
-                    tx.oncomplete = () => resolve();
-                    tx.onerror = () => reject(tx.error);
-                });
-            }
-
-            async function dbGetAll() {
-                const db = await openDB();
-                return new Promise((resolve, reject) => {
-                    const tx = db.transaction(STORE, 'readonly');
-                    const req = tx.objectStore(STORE).getAll();
-                    req.onsuccess = () => resolve(req.result || []);
-                    req.onerror = () => reject(req.error);
-                });
-            }
-
-            async function dbDelete(id) {
-                const db = await openDB();
-                return new Promise((resolve, reject) => {
-                    const tx = db.transaction(STORE, 'readwrite');
-                    tx.objectStore(STORE).delete(id);
-                    tx.oncomplete = () => resolve();
-                    tx.onerror = () => reject(tx.error);
-                });
-            }
-
-            async function dbClear() {
-                const db = await openDB();
-                return new Promise((resolve, reject) => {
-                    const tx = db.transaction(STORE, 'readwrite');
-                    tx.objectStore(STORE).clear();
-                    tx.oncomplete = () => resolve();
-                    tx.onerror = () => reject(tx.error);
-                });
-            }
-
-            function collectRows() {
-                const rows = [];
-                rowsTbody.querySelectorAll('tr').forEach(tr => {
-                    const w = parseFloat(tr.querySelector('.weight').value || '0');
-                    const p = parseFloat(tr.querySelector('.percent').value || '0');
-                    rows.push({ weight: isNaN(w) ? 0 : w, percent: isNaN(p) ? 0 : p });
-                });
-                return rows;
-            }
-
-            function loadRows(rows) {
-                rowsTbody.innerHTML = '';
-                rows.forEach(r => addRow(r.weight, r.percent));
-                if (rows.length === 0) { for (let i = 0; i < 3; i++) addRow(); }
-                recalcTotals();
-            }
-
-            async function renderHistory() {
-                const list = await dbGetAll();
-                historyList.innerHTML = '';
-                list.sort((a, b) => b.id - a.id).forEach(item => {
-                    const li = document.createElement('li');
-                    li.className = 'history-item';
-                    const time = new Date(item.timestamp).toLocaleString();
-                    const percent = ((item.totalElement / item.totalWeight) * 100) || 0;
-                    li.innerHTML = `
-                        <div>
-                            <div><strong>${time}</strong></div>
-                            <div>总重: ${formatNumber(item.totalWeight, 0)}，元素量: ${formatNumber(item.totalElement, 4)}，占比: ${formatNumber(percent, 4)}%</div>
-                        </div>
-                        <div class="history-actions">
-                            <button class="small-btn calculate-btn restore">还原</button>
-                            <button class="small-btn reset-btn del">删除</button>
-                        </div>
-                    `;
-                    li.querySelector('.restore').addEventListener('click', () => loadRows(item.rows));
-                    li.querySelector('.del').addEventListener('click', async () => { await dbDelete(item.id); renderHistory(); });
-                    historyList.appendChild(li);
-                });
-            }
-
-            saveHistoryBtn.addEventListener('click', async () => {
-                const rows = collectRows();
-                let totalW = 0, totalE = 0;
-                rows.forEach(r => { totalW += r.weight; totalE += calcProduct(r.weight, r.percent); });
-                const record = { timestamp: Date.now(), rows, totalWeight: totalW, totalElement: totalE };
-                await dbAdd(record);
-                await renderHistory();
-                alert('已保存到历史');
-            });
-
-            clearHistoryBtn.addEventListener('click', async () => {
-                if (!confirm('确认清空所有历史记录？')) return;
-                await dbClear();
-                await renderHistory();
-            });
-
-            // 首次渲染历史
-            renderHistory();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
